@@ -13,4 +13,6 @@ public interface HospitalDao {
 
     ResultSet find(String field, String meaning) throws DaoException;
 
+    ResultSet findDoctors(int meaning) throws DaoException;
+
 }

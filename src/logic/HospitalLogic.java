@@ -11,6 +11,8 @@ public interface HospitalLogic {
 
     ResultSet find(String field, String meaning) throws LogicException;
 
+    ResultSet findDoctors(int meaning) throws LogicException;
+
     void add(Doctor n) throws LogicException;
 
 }

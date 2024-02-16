@@ -100,4 +100,36 @@ public class HospitalDaoBase implements HospitalDao {
 
     }
 
+    @Override
+    public ResultSet findDoctors(int meaning) throws DaoException {
+
+        ResultSet resSet = null;
+        String select = "";
+
+        try {
+            //  select = "SELECT * FROM " + DatabaseConstants.TABLE_HOSPITALS + "," + DatabaseConstants.TABLE_DOCTORS +
+            //          " WHERE " + DatabaseConstants.ID_HOSPITALS + "=" + DatabaseConstants.ID_HOSPITALS_DOCTORS +
+            //          " AND " + DatabaseConstants.ID_HOSPITALS + "=?";
+
+            //  select = "SELECT "+ DatabaseConstants.ID_HOSPITALS + " FROM " + DatabaseConstants.TABLE_HOSPITALS +
+            //         " INNER JOIN " + DatabaseConstants.TABLE_DOCTORS + " ON "+
+            //         DatabaseConstants.ID_HOSPITALS+ "=" + DatabaseConstants.ID_HOSPITALS_DOCTORS+
+            // " AND "+ DatabaseConstants.ID_HOSPITALS + "=?";
+
+            select = "SELECT * FROM " + DatabaseConstants.TABLE_DOCTORS + "," + DatabaseConstants.TABLE_HOSPITALS +
+                    " WHERE " + DatabaseConstants.TABLE_DOCTORS + "." + DatabaseConstants.ID_HOSPITALS_DOCTORS + "=" +
+                    DatabaseConstants.TABLE_HOSPITALS + "." + DatabaseConstants.ID_HOSPITALS;
+
+            PreparedStatement prSt = DaoProvider.getDbConnection().prepareStatement(select);
+
+            resSet = prSt.executeQuery();
+
+            return resSet;
+
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+
+    }
+
 }

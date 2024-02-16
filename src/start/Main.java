@@ -25,6 +25,10 @@ public class Main {
         //response.append(controller.doAction(request));
         //System.out.println(response);
 
+        request = "FINDDOCTORS\nid=1";
+        response.append(controller.doAction(request));
+        System.out.println(response);
+
     }
 
 }

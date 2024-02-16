@@ -42,4 +42,13 @@ public class HospitalLogicImpl implements HospitalLogic {
         }
     }
 
+    @Override
+    public ResultSet findDoctors(int meaning) throws LogicException {
+        try {
+            return dao.findDoctors(meaning);
+        } catch (DaoException e) {
+            throw new LogicException(e);
+        }
+    }
+
 }

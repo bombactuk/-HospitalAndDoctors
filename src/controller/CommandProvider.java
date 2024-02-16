@@ -1,6 +1,7 @@
 package controller;
 
 import controller.impl.AddCommand;
+import controller.impl.FindDoctorsTheHospital;
 import controller.impl.FindHospitalCommand;
 import controller.impl.NoSuchCommand;
 
@@ -15,6 +16,7 @@ public class CommandProvider {
         repository.put(CommandName.ADD, new AddCommand());
         repository.put(CommandName.WRONG_REQUEST, new NoSuchCommand());
         repository.put(CommandName.FIND, new FindHospitalCommand());
+        repository.put(CommandName.FINDDOCTORS, new FindDoctorsTheHospital());
 
     }
 
