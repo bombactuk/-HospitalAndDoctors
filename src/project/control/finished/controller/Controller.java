@@ -1,4 +1,4 @@
-package controller;
+package project.control.finished.controller;
 
 public class Controller {
 

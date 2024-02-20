@@ -1,4 +1,4 @@
-package dao;
+package project.control.finished.dao;
 
 public class DaoException extends Exception {
 

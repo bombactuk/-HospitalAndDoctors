@@ -1,4 +1,4 @@
-package entity;
+package project.control.finished.entity;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package logic;
+package project.control.finished.logic;
 
 public class LogicException extends Exception {
 

@@ -1,6 +1,6 @@
-package controller.impl;
+package project.control.finished.controller.impl;
 
-import controller.Command;
+import project.control.finished.controller.Command;
 
 public class NoSuchCommand implements Command {
 

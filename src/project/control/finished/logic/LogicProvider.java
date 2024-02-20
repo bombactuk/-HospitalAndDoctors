@@ -1,6 +1,6 @@
-package logic;
+package project.control.finished.logic;
 
-import logic.impl.HospitalLogicImpl;
+import project.control.finished.logic.impl.HospitalLogicImpl;
 
 public final class LogicProvider {
 

@@ -1,14 +1,14 @@
-package logic.impl;
+package project.control.finished.logic.impl;
 
-import dao.DaoException;
-import dao.DaoProvider;
-import dao.HospitalDao;
-import entity.Doctor;
-import entity.Hospital;
-import logic.HospitalLogic;
-import logic.LogicException;
+import project.control.finished.dao.DaoException;
+import project.control.finished.dao.DaoProvider;
+import project.control.finished.dao.HospitalDao;
+import project.control.finished.entity.Doctor;
+import project.control.finished.entity.Hospital;
+import project.control.finished.logic.HospitalLogic;
+import project.control.finished.logic.LogicException;
 
-import java.sql.ResultSet;
+import java.util.List;
 
 public class HospitalLogicImpl implements HospitalLogic {
 
@@ -34,18 +34,18 @@ public class HospitalLogicImpl implements HospitalLogic {
     }
 
     @Override
-    public ResultSet find(String field, String meaning) throws LogicException {
+    public List<Hospital> findHospital(String field, String meaning) throws LogicException {
         try {
-            return dao.find(field, meaning);
+            return dao.findHospital(field, meaning);
         } catch (DaoException e) {
             throw new LogicException(e);
         }
     }
 
     @Override
-    public ResultSet findDoctors(int meaning) throws LogicException {
+    public List<Doctor> findDoctor(String field, String meaning) throws LogicException {
         try {
-            return dao.findDoctors(meaning);
+            return dao.findDoctor(field,meaning);
         } catch (DaoException e) {
             throw new LogicException(e);
         }
