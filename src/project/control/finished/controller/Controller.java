@@ -2,9 +2,12 @@ package project.control.finished.controller;
 
 public class Controller {
 
+    private static final Controller instance = new Controller();
     private final char paramDelimeter = '\n';
-
     private final CommandProvider provider = new CommandProvider();
+
+    private Controller() {
+    }
 
     public String doAction(String request) {
 
@@ -25,4 +28,9 @@ public class Controller {
         return response.toString();
 
     }
+
+    public static Controller getInstance() {
+        return instance;
+    }
+
 }

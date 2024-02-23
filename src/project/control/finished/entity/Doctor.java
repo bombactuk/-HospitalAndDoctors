@@ -8,12 +8,13 @@ public class Doctor {
     private String jobTitle;
     private int idHospital;
 
-    public Doctor(){}
+    public Doctor() {
+    }
 
-    public Doctor(String fio,String jobTitle,int idHospital){
-        this.fio=fio;
-        this.jobTitle=jobTitle;
-        this.idHospital=idHospital;
+    public Doctor(String fio, String jobTitle, int idHospital) {
+        this.fio = fio;
+        this.jobTitle = jobTitle;
+        this.idHospital = idHospital;
     }
 
     public String getFio() {

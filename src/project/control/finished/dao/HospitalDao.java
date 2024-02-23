@@ -15,4 +15,10 @@ public interface HospitalDao {
 
     List<Doctor> findDoctor(String field, String meaning) throws DaoException;
 
+    void update(int id, Hospital n) throws DaoException;
+
+    void update(int id, Doctor n) throws DaoException;
+
+    void delete(String field, int id) throws DaoException;
+
 }

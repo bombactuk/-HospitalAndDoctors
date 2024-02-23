@@ -1,9 +1,6 @@
 package project.control.finished.controller;
 
-import project.control.finished.controller.impl.AddCommand;
-import project.control.finished.controller.impl.FindDoctorCommand;
-import project.control.finished.controller.impl.FindHospitalCommand;
-import project.control.finished.controller.impl.NoSuchCommand;
+import project.control.finished.controller.impl.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +14,8 @@ public class CommandProvider {
         repository.put(CommandName.WRONG_REQUEST, new NoSuchCommand());
         repository.put(CommandName.FINDHOSPITAL, new FindHospitalCommand());
         repository.put(CommandName.FINDDOCTOR, new FindDoctorCommand());
+        repository.put(CommandName.UPDATE, new UpdateCommand());
+        repository.put(CommandName.DELETE, new DeleteCommand());
 
     }
 

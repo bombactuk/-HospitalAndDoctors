@@ -9,7 +9,7 @@ import project.control.finished.logic.LogicProvider;
 
 import static java.lang.Integer.parseInt;
 
-public class AddCommand implements Command {
+public class UpdateCommand implements Command {
 
     private final LogicProvider logicProvider = LogicProvider.getInstance();
     private final HospitalLogic logic = logicProvider.getHospitallogic();
@@ -31,16 +31,16 @@ public class AddCommand implements Command {
                 try {
                     newHospital = new Hospital();
 
-                    newHospital.setName(params[2].split("=")[1]);
-                    newHospital.setAddress(params[3].split("=")[1]);
-                    newHospital.setCity(params[4].split("=")[1]);
+                    newHospital.setName(params[3].split("=")[1]);
+                    newHospital.setAddress(params[4].split("=")[1]);
+                    newHospital.setCity(params[5].split("=")[1]);
 
-                    logic.add(newHospital);
+                    logic.update(Integer.parseInt(params[2].split("=")[1]), newHospital);
 
-                    response.append("Added Hospital.");
+                    response.append("Update Hospital.");
 
                 } catch (LogicException e) {
-                    response.append("Hospital not added.");
+                    response.append("Update not added.");
                 }
 
             }
@@ -50,16 +50,16 @@ public class AddCommand implements Command {
                 try {
                     newDoctor = new Doctor();
 
-                    newDoctor.setIdHospital(parseInt(params[2].split("=")[1]));
-                    newDoctor.setFio(params[3].split("=")[1]);
-                    newDoctor.setJobTitle(params[4].split("=")[1]);
+                    newDoctor.setIdHospital(parseInt(params[3].split("=")[1]));
+                    newDoctor.setFio(params[4].split("=")[1]);
+                    newDoctor.setJobTitle(params[5].split("=")[1]);
 
-                    logic.add(newDoctor);
+                    logic.update(Integer.parseInt(params[2].split("=")[1]), newDoctor);
 
-                    response.append("Added Doctor.");
+                    response.append("Update Doctor.");
 
                 } catch (LogicException e) {
-                    response.append("Doctor not added.");
+                    response.append("Update not added.");
                 }
 
             }
@@ -71,5 +71,4 @@ public class AddCommand implements Command {
         return response;
 
     }
-
 }

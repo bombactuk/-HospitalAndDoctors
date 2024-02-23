@@ -45,7 +45,34 @@ public class HospitalLogicImpl implements HospitalLogic {
     @Override
     public List<Doctor> findDoctor(String field, String meaning) throws LogicException {
         try {
-            return dao.findDoctor(field,meaning);
+            return dao.findDoctor(field, meaning);
+        } catch (DaoException e) {
+            throw new LogicException(e);
+        }
+    }
+
+    @Override
+    public void update(int id, Doctor n) throws LogicException {
+        try {
+            dao.update(id, n);
+        } catch (DaoException e) {
+            throw new LogicException(e);
+        }
+    }
+
+    @Override
+    public void update(int id, Hospital n) throws LogicException {
+        try {
+            dao.update(id, n);
+        } catch (DaoException e) {
+            throw new LogicException(e);
+        }
+    }
+
+    @Override
+    public void delete(String field, int id) throws LogicException {
+        try {
+            dao.delete(field, id);
         } catch (DaoException e) {
             throw new LogicException(e);
         }

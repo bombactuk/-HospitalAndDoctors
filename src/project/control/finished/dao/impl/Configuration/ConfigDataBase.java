@@ -1,8 +1,8 @@
-package project.control.finished.dao.implConfiguration;
+package project.control.finished.dao.impl.Configuration;
 
 public final class ConfigDataBase {
 
-    private ConfigDataBase(){
+    private ConfigDataBase() {
     }
 
     public static final String DB_HOST = "127.0.0.1";
