@@ -101,6 +101,8 @@ public class HospitalDaoBase implements HospitalDao {
 
             }
 
+            hospitalsList.sort((Hospital o1, Hospital o2) -> o1.getName().compareTo(o2.getName()));
+
             return hospitalsList;
 
         } catch (IOException | SQLException e) {
@@ -152,6 +154,8 @@ public class HospitalDaoBase implements HospitalDao {
                 doctorsList.add(doctors);
 
             }
+
+            doctorsList.sort((Doctor o1, Doctor o2) -> o1.getFio().compareTo(o2.getFio()));
 
             return doctorsList;
 
