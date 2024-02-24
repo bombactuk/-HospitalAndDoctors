@@ -18,9 +18,9 @@ public final class ConfigFilesDataBase {
 
         Properties props = new Properties();
 
-        try (InputStream in = Files.newInputStream(Paths.get("database.properties"))) {
-            props.load(in);
-        }
+        InputStream in = Files.newInputStream(Paths.get("database.properties"));
+        props.load(in);
+
 
         return DriverManager.getConnection(props.getProperty("url"), props.getProperty("username"),
                 props.getProperty("password"));
