@@ -29,8 +29,11 @@ public class FindDoctorCommand implements Command {
 
                 try {
                     doctors = logic.findDoctor(params[0], params[1]);
+                    response.append("Found hospitals are printed.\n");
 
-                    response.append("Found hospitals are printed.\n" + doctors);
+                    for (Doctor doctor : doctors) {
+                        response.append(doctor.getFio() + " " + doctor.getJobTitle() + "\n");
+                    }
 
                 } catch (LogicException e) {
                     response.append("Сouldn't find.");

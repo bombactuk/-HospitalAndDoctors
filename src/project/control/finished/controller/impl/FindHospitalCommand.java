@@ -1,6 +1,7 @@
 package project.control.finished.controller.impl;
 
 import project.control.finished.controller.Command;
+import project.control.finished.entity.Doctor;
 import project.control.finished.entity.Hospital;
 import project.control.finished.logic.HospitalLogic;
 import project.control.finished.logic.LogicException;
@@ -30,7 +31,12 @@ public class FindHospitalCommand implements Command {
                 try {
                     hospitals = logic.findHospital(params[0], params[1]);
 
-                    response.append("Found hospitals are printed.\n" + hospitals);
+                    response.append("Found hospitals are printed.\n");
+
+                    for (Hospital hospital : hospitals) {
+                        response.append(hospital.getAddress() + " " + hospital.getName() +
+                                " " + hospital.getCity() + "\n");
+                    }
 
                 } catch (LogicException e) {
                     response.append("Сouldn't find.");
