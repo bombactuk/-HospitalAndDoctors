@@ -12,14 +12,8 @@ import java.util.*;
 
 public class HospitalDaoBase implements HospitalDao {
 
-    private static final String insertDoctorIntoDataBase = "INSERT INTO doctors" +
-            " ( idhospitals, fio , jobTitle ) VALUES(?,?,?)";
     private static final String insertHospitalIntoDataBase = "INSERT INTO hospital" +
             " ( name , address, city ) VALUES(?,?,?)";
-    private static final String updateHospitalIntoDataBase = "UPDATE hospital SET name" +
-            " = ?, address = ?, city = ? WHERE idhospitals = ?";
-    private static final String updateDoctorIntoDataBase = "UPDATE doctors SET idhospitals" +
-            " = ?, fio = ?, jobTitle = ? WHERE iddoctors = ?";
 
     @Override
     public void add(Hospital hospital) throws DaoException {
@@ -39,6 +33,9 @@ public class HospitalDaoBase implements HospitalDao {
         }
 
     }
+
+    private static final String insertDoctorIntoDataBase = "INSERT INTO doctors" +
+            " ( idhospitals, fio , jobTitle ) VALUES(?,?,?)";
 
     @Override
     public void add(Doctor doctor) throws DaoException {
@@ -164,6 +161,9 @@ public class HospitalDaoBase implements HospitalDao {
 
     }
 
+    private static final String updateHospitalIntoDataBase = "UPDATE hospital SET name" +
+            " = ?, address = ?, city = ? WHERE idhospitals = ?";
+
     @Override
     public void update(int id, Hospital hospital) throws DaoException {
 
@@ -183,6 +183,10 @@ public class HospitalDaoBase implements HospitalDao {
         }
 
     }
+
+    private static final String updateDoctorIntoDataBase = "UPDATE doctors SET idhospitals" +
+            " = ?, fio = ?, jobTitle = ? WHERE iddoctors = ?";
+
 
     @Override
     public void update(int id, Doctor doctor) throws DaoException {
