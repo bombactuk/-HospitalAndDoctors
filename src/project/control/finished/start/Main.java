@@ -8,37 +8,34 @@ public class Main {
     public static void main(String[] args) {
 
         StartController server = new StartController();
-
         String request;
-        StringBuilder response = new StringBuilder();
 
-        //request = "ADD\nhospital\nname=Центральная поликлинника\naddress=ул. Проспект победы 156\n" +
-        //  server.doAction(request);
+        //request = "ADDHOSPITAL\nname=Хирургическая поликлинника\naddress=ул. Проспект косарева 156\ncity=Минск";
+        //server.doAction(request);
 
-        // request = "ADD\ndoctor\nidhospital=1\nfio=Алексеенко Екатерина Андреевна\n" +
-        //         "jobTitle=Психотерапетв";
+        //request = "ADDDOCTOR\nidhospital=1\nfio=Петрова Ирина Андреевна\njobTitle=Окулист";
         //server.doAction(request);
 
         //request = "FIND\ncity=Гомель";
         //server.doAction(request);;
 
-        // request = "FINDHOSPITAL\ndoctor=1";
-        // server.doAction(request);
+        //request = "FINDHOSPITAL\ndoctor=1";
+        //server.doAction(request);
 
         //request = "FINDDOCTOR\nhospital=1";
         //server.doAction(request);
 
-        //request = "UPDATE\nhospital\nidhospital=1\nname=Советская поликлинника\naddress=ул. Косарева 151\n" +
+        //request = "UPDATEHOSPITAL\nidhospital=1\nname=Советская поликлинника\naddress=ул. Косарева 195\n" +
         //        "city=Гомель";
-        // server.doAction(request);
-
-        //request = "UPDATE\ndoctor\niddoctor=1\nidhospital=1\nfio=Левшунов Егор Юрьевич\njobTitle=Зам. Хирурга";
         //server.doAction(request);
 
-        // request = "DELETE\nhospital\nidhospital=8";
+        //request = "UPDATEDOCTOR\niddoctor=1\nidhospital=1\nfio=Левшунов Егор Юрьевич\njobTitle=Хирург";
+        //server.doAction(request);
+
+        //request = "DELETE\nhospital\nidhospital=15";
         // server.doAction(request);
 
-        //request = "DELETE\ndoctor\niddoctor=4";
+        //request = "DELETE\ndoctor\niddoctor=6";
         //server.doAction(request);
 
     }

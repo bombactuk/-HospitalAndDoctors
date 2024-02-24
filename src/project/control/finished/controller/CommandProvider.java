@@ -10,11 +10,13 @@ public class CommandProvider {
 
     CommandProvider() {
 
-        repository.put(CommandName.ADD, new AddCommand());
+        repository.put(CommandName.ADDHOSPITAL, new AddHospitalCommand());
+        repository.put(CommandName.ADDDOCTOR, new AddDoctorCommand());
         repository.put(CommandName.WRONG_REQUEST, new NoSuchCommand());
         repository.put(CommandName.FINDHOSPITAL, new FindHospitalCommand());
         repository.put(CommandName.FINDDOCTOR, new FindDoctorCommand());
-        repository.put(CommandName.UPDATE, new UpdateCommand());
+        repository.put(CommandName.UPDATEHOSPITAL, new UpdateHospitalCommand());
+        repository.put(CommandName.UPDATEDOCTOR, new UpdateDoctorCommand());
         repository.put(CommandName.DELETE, new DeleteCommand());
 
     }

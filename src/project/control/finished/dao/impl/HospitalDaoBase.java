@@ -2,19 +2,15 @@ package project.control.finished.dao.impl;
 
 import project.control.finished.dao.DaoException;
 import project.control.finished.dao.HospitalDao;
-import project.control.finished.dao.impl.Configuration.ConfigDataBase;
+import project.control.finished.dao.impl.configuration.ConfigDataBase;
 import project.control.finished.entity.Doctor;
 import project.control.finished.entity.Hospital;
 
+import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class HospitalDaoBase implements HospitalDao {
-
-    private StringBuilder connectionDataBase = new StringBuilder();
 
     private static final String insertDoctorIntoDataBase = "INSERT INTO doctors" +
             " ( idhospitals, fio , jobTitle ) VALUES(?,?,?)";
@@ -26,89 +22,68 @@ public class HospitalDaoBase implements HospitalDao {
             " = ?, fio = ?, jobTitle = ? WHERE iddoctors = ?";
 
     @Override
-    public synchronized void add(Hospital n) throws DaoException {
+    public void add(Hospital hospital) throws DaoException {
 
-        connectionDataBase = new StringBuilder();
-
-        connectionDataBase.append("jdbc:mysql://" + ConfigDataBase.DB_HOST + ":" +
-                ConfigDataBase.DB_PORT + "/" + ConfigDataBase.DB_NAME);
-
-        try (Connection dbConnection = DriverManager.getConnection(connectionDataBase.toString(),
-                ConfigDataBase.DB_USER, ConfigDataBase.DB_PASS)) {
+        try (Connection dbConnection = ConfigDataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(insertHospitalIntoDataBase);
 
-            prSt.setString(1, n.getName());
-            prSt.setString(2, n.getAddress());
-            prSt.setString(3, n.getCity());
+            prSt.setString(1, hospital.getName());
+            prSt.setString(2, hospital.getAddress());
+            prSt.setString(3, hospital.getCity());
 
             prSt.executeUpdate();
 
-            prSt.close();
-
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw new DaoException(e);
         }
 
     }
 
     @Override
-    public synchronized void add(Doctor n) throws DaoException {
+    public void add(Doctor doctor) throws DaoException {
 
-        connectionDataBase = new StringBuilder();
-
-        connectionDataBase.append("jdbc:mysql://" + ConfigDataBase.DB_HOST + ":" +
-                ConfigDataBase.DB_PORT + "/" + ConfigDataBase.DB_NAME);
-
-        try (Connection dbConnection = DriverManager.getConnection(connectionDataBase.toString(),
-                ConfigDataBase.DB_USER, ConfigDataBase.DB_PASS)) {
+        try (Connection dbConnection = ConfigDataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(insertDoctorIntoDataBase);
 
-            prSt.setInt(1, n.getIdHospital());
-            prSt.setString(2, n.getFio());
-            prSt.setString(3, n.getJobTitle());
+            prSt.setInt(1, doctor.getIdHospital());
+            prSt.setString(2, doctor.getFio());
+            prSt.setString(3, doctor.getJobTitle());
 
             prSt.executeUpdate();
 
-            prSt.close();
-
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw new DaoException(e);
         }
 
     }
 
+    private final Map<String, String> hospitalFindByField = new HashMap<>() {
+        {
+            put("name", "SELECT * FROM hospital WHERE name = ?");
+            put("address", "SELECT * FROM hospital WHERE address = ?");
+            put("city", "SELECT * FROM hospital WHERE city = ?");
+            put("doctor", "SELECT * FROM hospital, doctors WHERE hospital.idhospitals = doctors.iddoctors AND " +
+                    "doctors.iddoctors = ?");
+        }
+    };
+
     @Override
-    public synchronized List<Hospital> findHospital(String field, String meaning) throws DaoException {
+    public List<Hospital> findHospital(String field, String meaning) throws DaoException {
 
         ResultSet resSet = null;
         List<Hospital> hospitalsList = new ArrayList<>();
         Hospital hospitals;
 
-        connectionDataBase = new StringBuilder();
-        Map<String, String> hospitalSelectionByField = new HashMap<>() {
-            {
-                put("name", "SELECT * FROM hospital WHERE name = ?");
-                put("address", "SELECT * FROM hospital WHERE address = ?");
-                put("city", "SELECT * FROM hospital WHERE city = ?");
-                put("doctor", "SELECT * FROM hospital, doctors WHERE hospital.idhospitals = doctors.iddoctors AND " +
-                        "doctors.iddoctors = ?");
-            }
-        };
-
-        connectionDataBase.append("jdbc:mysql://" + ConfigDataBase.DB_HOST + ":" +
-                ConfigDataBase.DB_PORT + "/" + ConfigDataBase.DB_NAME);
-
-        try (Connection dbConnection = DriverManager.getConnection(connectionDataBase.toString(),
-                ConfigDataBase.DB_USER, ConfigDataBase.DB_PASS)) {
+        try (Connection dbConnection = ConfigDataBase.getConnection()) {
 
             PreparedStatement prSt = null;
 
-            for (String key : hospitalSelectionByField.keySet()) {
+            for (String key : hospitalFindByField.keySet()) {
 
                 if (key.equals(field)) {
-                    prSt = dbConnection.prepareStatement(hospitalSelectionByField.get(key));
+                    prSt = dbConnection.prepareStatement(hospitalFindByField.get(key));
                 }
 
             }
@@ -129,45 +104,38 @@ public class HospitalDaoBase implements HospitalDao {
 
             }
 
-            prSt.close();
-
             return hospitalsList;
 
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw new DaoException(e);
         }
 
     }
 
+    private final Map<String, String> DoctorFindByField = new HashMap<>() {
+        {
+            put("fio", "SELECT * FROM doctors WHERE fio = ?");
+            put("jobTitle", "SELECT * FROM doctors WHERE jobTitle = ?");
+            put("hospital", "SELECT * FROM doctors, hospital WHERE doctors.idhospitals = hospital.idhospitals " +
+                    "AND doctors.idhospitals = ?");
+        }
+    };
+
     @Override
-    public synchronized List<Doctor> findDoctor(String field, String meaning) throws DaoException {
+    public List<Doctor> findDoctor(String field, String meaning) throws DaoException {
 
         ResultSet resSet = null;
         Doctor doctors;
         List<Doctor> doctorsList = new ArrayList<>();
-        connectionDataBase = new StringBuilder();
 
-        Map<String, String> hospitalSelectionByField = new HashMap<>() {
-            {
-                put("fio", "SELECT * FROM doctors WHERE fio = ?");
-                put("jobTitle", "SELECT * FROM doctors WHERE jobTitle = ?");
-                put("hospital", "SELECT * FROM doctors, hospital WHERE doctors.idhospitals = hospital.idhospitals " +
-                        "AND doctors.idhospitals = ?");
-            }
-        };
-
-        connectionDataBase.append("jdbc:mysql://" + ConfigDataBase.DB_HOST + ":" +
-                ConfigDataBase.DB_PORT + "/" + ConfigDataBase.DB_NAME);
-
-        try (Connection dbConnection = DriverManager.getConnection(connectionDataBase.toString(),
-                ConfigDataBase.DB_USER, ConfigDataBase.DB_PASS)) {
+        try (Connection dbConnection = ConfigDataBase.getConnection()) {
 
             PreparedStatement prSt = null;
 
-            for (String key : hospitalSelectionByField.keySet()) {
+            for (String key : DoctorFindByField.keySet()) {
 
                 if (key.equals(field)) {
-                    prSt = dbConnection.prepareStatement(hospitalSelectionByField.get(key));
+                    prSt = dbConnection.prepareStatement(DoctorFindByField.get(key));
                 }
 
             }
@@ -188,98 +156,75 @@ public class HospitalDaoBase implements HospitalDao {
 
             }
 
-            prSt.close();
-
             return doctorsList;
 
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw new DaoException(e);
         }
 
     }
 
     @Override
-    public void update(int id, Hospital n) throws DaoException {
+    public void update(int id, Hospital hospital) throws DaoException {
 
-        connectionDataBase = new StringBuilder();
-
-        connectionDataBase.append("jdbc:mysql://" + ConfigDataBase.DB_HOST + ":" +
-                ConfigDataBase.DB_PORT + "/" + ConfigDataBase.DB_NAME);
-
-        try (Connection dbConnection = DriverManager.getConnection(connectionDataBase.toString(),
-                ConfigDataBase.DB_USER, ConfigDataBase.DB_PASS)) {
+        try (Connection dbConnection = ConfigDataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(updateHospitalIntoDataBase);
 
-            prSt.setString(1, n.getName());
-            prSt.setString(2, n.getAddress());
-            prSt.setString(3, n.getCity());
+            prSt.setString(1, hospital.getName());
+            prSt.setString(2, hospital.getAddress());
+            prSt.setString(3, hospital.getCity());
             prSt.setInt(4, id);
 
             prSt.executeUpdate();
 
-            prSt.close();
-
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw new DaoException(e);
         }
 
     }
 
     @Override
-    public void update(int id, Doctor n) throws DaoException {
+    public void update(int id, Doctor doctor) throws DaoException {
 
-        connectionDataBase = new StringBuilder();
-
-        connectionDataBase.append("jdbc:mysql://" + ConfigDataBase.DB_HOST + ":" +
-                ConfigDataBase.DB_PORT + "/" + ConfigDataBase.DB_NAME);
-
-        try (Connection dbConnection = DriverManager.getConnection(connectionDataBase.toString(),
-                ConfigDataBase.DB_USER, ConfigDataBase.DB_PASS)) {
+        try (Connection dbConnection = ConfigDataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(updateDoctorIntoDataBase);
 
-            prSt.setInt(1, n.getIdHospital());
-            prSt.setString(2, n.getFio());
-            prSt.setString(3, n.getJobTitle());
+            prSt.setInt(1, doctor.getIdHospital());
+            prSt.setString(2, doctor.getFio());
+            prSt.setString(3, doctor.getJobTitle());
             prSt.setInt(4, id);
 
             prSt.executeUpdate();
 
-            prSt.close();
-
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw new DaoException(e);
         }
 
     }
+
+    private final Map<String, String> hospitalAndDoctorDeleteByField = new HashMap<>() {
+        {
+            put("hospitalAndDoctor", "DELETE hospital, doctors" +
+                    " FROM hospital" +
+                    " JOIN doctors ON hospital.idhospitals = doctors.idhospitals" +
+                    " WHERE hospital.idhospitals = ?");
+            put("doctor", "DELETE FROM doctors WHERE iddoctors=?");
+            put("hospital", "DELETE FROM hospital WHERE idhospitals=?");
+        }
+    };
 
     @Override
     public void delete(String field, int id) throws DaoException {
 
-        connectionDataBase = new StringBuilder();
-        Map<String, String> hospitalSelectionByField = new HashMap<>() {
-            {
-                put("hospital", "DELETE hospital, doctors" +
-                        " FROM hospital" +
-                        " JOIN doctors ON hospital.idhospitals = doctors.idhospitals" +
-                        " WHERE hospital.idhospitals = ?");
-                put("doctor", "DELETE FROM doctors WHERE iddoctors=?");
-            }
-        };
-
-        connectionDataBase.append("jdbc:mysql://" + ConfigDataBase.DB_HOST + ":" +
-                ConfigDataBase.DB_PORT + "/" + ConfigDataBase.DB_NAME);
-
-        try (Connection dbConnection = DriverManager.getConnection(connectionDataBase.toString(),
-                ConfigDataBase.DB_USER, ConfigDataBase.DB_PASS)) {
-
+        try (Connection dbConnection = ConfigDataBase.getConnection()) {
             PreparedStatement prSt = null;
 
-            for (String key : hospitalSelectionByField.keySet()) {
+            for (String key : hospitalAndDoctorDeleteByField.keySet()) {
 
                 if (key.equals(field)) {
-                    prSt = dbConnection.prepareStatement(hospitalSelectionByField.get(key));
+                    prSt = dbConnection.prepareStatement(hospitalAndDoctorDeleteByField.get(key));
                 }
 
             }
@@ -288,12 +233,11 @@ public class HospitalDaoBase implements HospitalDao {
 
             prSt.executeUpdate();
 
-            prSt.close();
-
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw new DaoException(e);
         }
 
     }
+
 
 }

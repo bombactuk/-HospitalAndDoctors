@@ -16,18 +16,18 @@ public class HospitalLogicImpl implements HospitalLogic {
     private final HospitalDao dao = provider.getHospitalDao();
 
     @Override
-    public void add(Hospital n) throws LogicException {
+    public void add(Hospital hospital) throws LogicException {
         try {
-            dao.add(n);
+            dao.add(hospital);
         } catch (DaoException e) {
             throw new LogicException(e);
         }
     }
 
     @Override
-    public void add(Doctor n) throws LogicException {
+    public void add(Doctor doctor) throws LogicException {
         try {
-            dao.add(n);
+            dao.add(doctor);
         } catch (DaoException e) {
             throw new LogicException(e);
         }
@@ -52,18 +52,18 @@ public class HospitalLogicImpl implements HospitalLogic {
     }
 
     @Override
-    public void update(int id, Doctor n) throws LogicException {
+    public void update(int id, Doctor doctor) throws LogicException {
         try {
-            dao.update(id, n);
+            dao.update(id, doctor);
         } catch (DaoException e) {
             throw new LogicException(e);
         }
     }
 
     @Override
-    public void update(int id, Hospital n) throws LogicException {
+    public void update(int id, Hospital hospital) throws LogicException {
         try {
-            dao.update(id, n);
+            dao.update(id, hospital);
         } catch (DaoException e) {
             throw new LogicException(e);
         }
