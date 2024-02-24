@@ -2,7 +2,7 @@ package project.control.finished.dao.impl;
 
 import project.control.finished.dao.DaoException;
 import project.control.finished.dao.HospitalDao;
-import project.control.finished.dao.impl.configuration.ConfigDataBase;
+import project.control.finished.dao.impl.configuration.ConfigFilesDataBase;
 import project.control.finished.entity.Doctor;
 import project.control.finished.entity.Hospital;
 
@@ -18,7 +18,7 @@ public class HospitalDaoBase implements HospitalDao {
     @Override
     public void add(Hospital hospital) throws DaoException {
 
-        try (Connection dbConnection = ConfigDataBase.getConnection()) {
+        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(insertHospitalIntoDataBase);
 
@@ -40,7 +40,7 @@ public class HospitalDaoBase implements HospitalDao {
     @Override
     public void add(Doctor doctor) throws DaoException {
 
-        try (Connection dbConnection = ConfigDataBase.getConnection()) {
+        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(insertDoctorIntoDataBase);
 
@@ -73,7 +73,7 @@ public class HospitalDaoBase implements HospitalDao {
         List<Hospital> hospitalsList = new ArrayList<>();
         Hospital hospitals;
 
-        try (Connection dbConnection = ConfigDataBase.getConnection()) {
+        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
 
             PreparedStatement prSt = null;
 
@@ -125,7 +125,7 @@ public class HospitalDaoBase implements HospitalDao {
         Doctor doctors;
         List<Doctor> doctorsList = new ArrayList<>();
 
-        try (Connection dbConnection = ConfigDataBase.getConnection()) {
+        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
 
             PreparedStatement prSt = null;
 
@@ -167,7 +167,7 @@ public class HospitalDaoBase implements HospitalDao {
     @Override
     public void update(int id, Hospital hospital) throws DaoException {
 
-        try (Connection dbConnection = ConfigDataBase.getConnection()) {
+        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(updateHospitalIntoDataBase);
 
@@ -191,7 +191,7 @@ public class HospitalDaoBase implements HospitalDao {
     @Override
     public void update(int id, Doctor doctor) throws DaoException {
 
-        try (Connection dbConnection = ConfigDataBase.getConnection()) {
+        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(updateDoctorIntoDataBase);
 
@@ -222,7 +222,7 @@ public class HospitalDaoBase implements HospitalDao {
     @Override
     public void delete(String field, int id) throws DaoException {
 
-        try (Connection dbConnection = ConfigDataBase.getConnection()) {
+        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
             PreparedStatement prSt = null;
 
             for (String key : hospitalAndDoctorDeleteByField.keySet()) {

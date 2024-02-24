@@ -9,9 +9,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public final class ConfigDataBase {
+public final class ConfigFilesDataBase {
 
-    private ConfigDataBase() {
+    private ConfigFilesDataBase() {
     }
 
     public static Connection getConnection() throws SQLException, IOException {
