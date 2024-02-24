@@ -6,8 +6,6 @@ import project.control.finished.logic.HospitalLogic;
 import project.control.finished.logic.LogicException;
 import project.control.finished.logic.LogicProvider;
 
-import static java.lang.Integer.parseInt;
-
 public class AddHospitalCommand implements Command {
 
     private final LogicProvider logicProvider = LogicProvider.getInstance();

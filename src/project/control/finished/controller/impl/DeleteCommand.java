@@ -1,13 +1,9 @@
 package project.control.finished.controller.impl;
 
 import project.control.finished.controller.Command;
-import project.control.finished.entity.Doctor;
-import project.control.finished.entity.Hospital;
 import project.control.finished.logic.HospitalLogic;
 import project.control.finished.logic.LogicException;
 import project.control.finished.logic.LogicProvider;
-
-import static java.lang.Integer.parseInt;
 
 public class DeleteCommand implements Command {
 
