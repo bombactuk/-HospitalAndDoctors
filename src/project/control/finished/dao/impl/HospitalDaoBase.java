@@ -191,7 +191,6 @@ public class HospitalDaoBase implements HospitalDao {
     private static final String updateDoctorIntoDataBase = "UPDATE doctors SET idhospitals" +
             " = ?, fio = ?, jobTitle = ? WHERE iddoctors = ?";
 
-
     @Override
     public void update(int id, Doctor doctor) throws DaoException {
 
@@ -246,6 +245,5 @@ public class HospitalDaoBase implements HospitalDao {
         }
 
     }
-
 
 }
