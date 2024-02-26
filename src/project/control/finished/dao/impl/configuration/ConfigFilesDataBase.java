@@ -11,20 +11,48 @@ import java.util.Properties;
 
 public final class ConfigFilesDataBase {
 
-    private ConfigFilesDataBase() {
+    private static final ConfigFilesDataBase instance;
+
+    static {
+        try {
+            instance = new ConfigFilesDataBase();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static Connection getConnection() throws SQLException, IOException {
+
+    private final String url;
+    private final String username;
+    private final String password;
+
+    private ConfigFilesDataBase() throws IOException {
 
         Properties props = new Properties();
 
-        InputStream in = Files.newInputStream(Paths.get("database.properties"));
-        props.load(in);
+        try (InputStream in = Files.newInputStream(Paths.get("database.properties"))) {
 
+            props.load(in);
 
-        return DriverManager.getConnection(props.getProperty("url"), props.getProperty("username"),
-                props.getProperty("password"));
+            url = props.getProperty("url");
+            username = props.getProperty("username");
+            password = props.getProperty("password");
 
+        } catch (IOException e) {
+            throw new IOException();
+        }
+
+    }
+
+    public Connection getConnection() throws SQLException, IOException {
+
+        return DriverManager.getConnection(url, username,
+                password);
+
+    }
+
+    public static ConfigFilesDataBase getInstance() {
+        return instance;
     }
 
 }

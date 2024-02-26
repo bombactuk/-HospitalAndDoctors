@@ -12,13 +12,15 @@ import java.util.*;
 
 public class HospitalDaoBase implements HospitalDao {
 
+    private final ConfigFilesDataBase dataBase = ConfigFilesDataBase.getInstance();
+
     private static final String insertHospitalIntoDataBase = "INSERT INTO hospital" +
             " ( name , address, city ) VALUES(?,?,?)";
 
     @Override
     public void add(Hospital hospital) throws DaoException {
 
-        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
+        try (Connection dbConnection = dataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(insertHospitalIntoDataBase);
 
@@ -40,7 +42,7 @@ public class HospitalDaoBase implements HospitalDao {
     @Override
     public void add(Doctor doctor) throws DaoException {
 
-        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
+        try (Connection dbConnection = dataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(insertDoctorIntoDataBase);
 
@@ -69,11 +71,11 @@ public class HospitalDaoBase implements HospitalDao {
     @Override
     public List<Hospital> findHospital(String field, String meaning) throws DaoException {
 
-        ResultSet resSet = null;
+        ResultSet resSet;
         List<Hospital> hospitalsList = new ArrayList<>();
         Hospital hospitals;
 
-        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
+        try (Connection dbConnection = dataBase.getConnection()) {
 
             PreparedStatement prSt = null;
 
@@ -101,7 +103,7 @@ public class HospitalDaoBase implements HospitalDao {
 
             }
 
-            hospitalsList.sort((Hospital o1, Hospital o2) -> o1.getName().compareTo(o2.getName()));
+            hospitalsList.sort(Comparator.comparing(Hospital::getName));
 
             return hospitalsList;
 
@@ -123,11 +125,11 @@ public class HospitalDaoBase implements HospitalDao {
     @Override
     public List<Doctor> findDoctor(String field, String meaning) throws DaoException {
 
-        ResultSet resSet = null;
+        ResultSet resSet;
         Doctor doctors;
         List<Doctor> doctorsList = new ArrayList<>();
 
-        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
+        try (Connection dbConnection = dataBase.getConnection()) {
 
             PreparedStatement prSt = null;
 
@@ -155,7 +157,7 @@ public class HospitalDaoBase implements HospitalDao {
 
             }
 
-            doctorsList.sort((Doctor o1, Doctor o2) -> o1.getFio().compareTo(o2.getFio()));
+            doctorsList.sort(Comparator.comparing(Doctor::getFio));
 
             return doctorsList;
 
@@ -171,7 +173,7 @@ public class HospitalDaoBase implements HospitalDao {
     @Override
     public void update(int id, Hospital hospital) throws DaoException {
 
-        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
+        try (Connection dbConnection = dataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(updateHospitalIntoDataBase);
 
@@ -194,7 +196,7 @@ public class HospitalDaoBase implements HospitalDao {
     @Override
     public void update(int id, Doctor doctor) throws DaoException {
 
-        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
+        try (Connection dbConnection = dataBase.getConnection()) {
 
             PreparedStatement prSt = dbConnection.prepareCall(updateDoctorIntoDataBase);
 
@@ -225,7 +227,7 @@ public class HospitalDaoBase implements HospitalDao {
     @Override
     public void delete(String field, int id) throws DaoException {
 
-        try (Connection dbConnection = ConfigFilesDataBase.getConnection()) {
+        try (Connection dbConnection = dataBase.getConnection()) {
             PreparedStatement prSt = null;
 
             for (String key : hospitalAndDoctorDeleteByField.keySet()) {
