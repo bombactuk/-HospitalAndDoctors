@@ -11,35 +11,27 @@ import java.util.Properties;
 
 public final class ConfigFilesDataBase {
 
-    private static final ConfigFilesDataBase instance;
-
-    static {
-
-        try {
-            instance = new ConfigFilesDataBase();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
+    private static final ConfigFilesDataBase instance = new ConfigFilesDataBase();
 
     private final String url;
     private final String username;
     private final String password;
 
-    private ConfigFilesDataBase() throws IOException {
+    private ConfigFilesDataBase() {
 
         Properties props = new Properties();
 
-        InputStream in = Files.newInputStream(Paths.get("database.properties"));
+        try (InputStream in = Files.newInputStream(Paths.get("database.properties"))) {
 
-        props.load(in);
+            props.load(in);
 
-        url = props.getProperty("url");
-        username = props.getProperty("username");
-        password = props.getProperty("password");
+            url = props.getProperty("url");
+            username = props.getProperty("username");
+            password = props.getProperty("password");
 
-        in.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

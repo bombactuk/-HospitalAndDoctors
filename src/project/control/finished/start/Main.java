@@ -18,8 +18,8 @@ public class Main {
         //request = "FINDHOSPITAL\ndoctor=1";
         //server.doAction(request);
 
-        //request = "FINDDOCTOR\nhospital=1";
-        //server.doAction(request);
+        request = "FINDDOCTOR\nhospital=1";
+        server.doAction(request);
 
         //request = "UPDATEHOSPITAL\nidhospital=1\nname=Советская поликлинника\naddress=ул. Косарева 195\n" +
         //        "city=Гомель";
