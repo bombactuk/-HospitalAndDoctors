@@ -20,9 +20,9 @@ public class AddDoctorCommand implements Command {
         String[] params;
         Doctor newDoctor;
 
-        params = request.split("\n");
-
         try {
+            params = request.split("\n");
+
             newDoctor = new Doctor();
 
             newDoctor.setIdHospital(parseInt(params[1].split("=")[1]));

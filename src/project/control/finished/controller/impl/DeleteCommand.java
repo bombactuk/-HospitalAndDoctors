@@ -16,29 +16,28 @@ public class DeleteCommand implements Command {
         StringBuilder response = new StringBuilder();
         String[] params;
 
-        params = request.split("\n");
+        try {
+            params = request.split("\n");
 
-        switch (params[1]) {
+            switch (params[1]) {
 
-            case "hospital", "doctor" -> {
+                case "hospital", "doctor" -> {
 
-                try {
                     logic.delete(params[1], Integer.parseInt(params[2].split("=")[1]));
 
                     response.append("Deletion completed.");
 
-                } catch (LogicException e) {
-                    response.append("Delete not.");
                 }
+
+                default -> response.append("Field not found.");
 
             }
 
-            default -> response.append("Field not found.");
-
+        } catch (LogicException e) {
+            response.append("Delete not.");
         }
 
         return response;
-
 
     }
 

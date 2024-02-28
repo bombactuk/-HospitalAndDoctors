@@ -9,14 +9,11 @@ public class Main {
         StartController server = new StartController();
         String request;
 
-        request = "ADDHOSPITAL\nname=Хирургическая поликлинника\naddress=ул. Проспект косарева 156\ncity=Минск";
-        server.doAction(request);
+        //request = "ADDHOSPITAL\nname=Хирургическая поликлинника\naddress=ул. Проспект косарева 156\ncity=Минск";
+        //server.doAction(request);
 
         //request = "ADDDOCTOR\nidhospital=1\nfio=Петрова Ирина Андреевна\njobTitle=Окулист";
         //server.doAction(request);
-
-        //request = "FIND\ncity=Гомель";
-        //server.doAction(request);;
 
         //request = "FINDHOSPITAL\ndoctor=1";
         //server.doAction(request);

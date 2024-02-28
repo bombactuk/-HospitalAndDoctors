@@ -20,29 +20,29 @@ public class FindDoctorCommand implements Command {
         String[] params;
         List<Doctor> doctors;
 
-        params = request.split("\n");
-        params = params[1].split("=");
+        try {
+            params = request.split("\n");
+            params = params[1].split("=");
 
-        switch (params[0]) {
+            switch (params[0]) {
 
-            case "fio", "jobTitle", "hospital" -> {
+                case "fio", "jobTitle", "hospital" -> {
 
-                try {
                     doctors = logic.findDoctor(params[0], params[1]);
                     response.append("Found hospitals are printed.\n");
 
                     for (Doctor doctor : doctors) {
-                        response.append(doctor.getFio() + " " + doctor.getJobTitle() + "\n");
+                        response.append(doctor.getFio() + ", " + doctor.getJobTitle() + "\n");
                     }
 
-                } catch (LogicException e) {
-                    response.append("Сouldn't find.");
                 }
+
+                default -> response.append("Field not found.");
 
             }
 
-            default -> response.append("Field not found.");
-
+        } catch (LogicException e) {
+            response.append("Сouldn't find.");
         }
 
         return response;

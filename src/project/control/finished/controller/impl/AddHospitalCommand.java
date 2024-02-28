@@ -18,9 +18,9 @@ public class AddHospitalCommand implements Command {
         String[] params;
         Hospital newHospital;
 
-        params = request.split("\n");
-
         try {
+            params = request.split("\n");
+
             newHospital = new Hospital();
 
             newHospital.setName(params[1].split("=")[1]);

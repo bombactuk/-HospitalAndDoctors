@@ -18,9 +18,9 @@ public class UpdateHospitalCommand implements Command {
         String[] params;
         Hospital newHospital;
 
-        params = request.split("\n");
-
         try {
+            params = request.split("\n");
+
             newHospital = new Hospital();
 
             newHospital.setName(params[2].split("=")[1]);
@@ -38,4 +38,5 @@ public class UpdateHospitalCommand implements Command {
         return response;
 
     }
+
 }

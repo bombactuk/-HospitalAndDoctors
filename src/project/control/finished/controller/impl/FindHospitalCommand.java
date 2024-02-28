@@ -21,31 +21,31 @@ public class FindHospitalCommand implements Command {
         String[] params;
         List<Hospital> hospitals;
 
-        params = request.split("\n");
-        params = params[1].split("=");
+        try {
+            params = request.split("\n");
+            params = params[1].split("=");
 
-        switch (params[0]) {
+            switch (params[0]) {
 
-            case "name", "address", "city", "doctor" -> {
+                case "name", "address", "city", "doctor" -> {
 
-                try {
                     hospitals = logic.findHospital(params[0], params[1]);
 
                     response.append("Found hospitals are printed.\n");
 
                     for (Hospital hospital : hospitals) {
-                        response.append(hospital.getAddress() + " " + hospital.getName() +
-                                " " + hospital.getCity() + "\n");
+                        response.append(hospital.getAddress() + ", " + hospital.getName() +
+                                ", " + hospital.getCity() + "\n");
                     }
 
-                } catch (LogicException e) {
-                    response.append("Сouldn't find.");
                 }
+
+                default -> response.append("Field not found.");
 
             }
 
-            default -> response.append("Field not found.");
-
+        } catch (LogicException e) {
+            response.append("Сouldn't find.");
         }
 
         return response;

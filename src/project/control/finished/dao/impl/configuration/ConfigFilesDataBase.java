@@ -14,13 +14,14 @@ public final class ConfigFilesDataBase {
     private static final ConfigFilesDataBase instance;
 
     static {
+
         try {
             instance = new ConfigFilesDataBase();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
 
+    }
 
     private final String url;
     private final String username;
@@ -30,25 +31,20 @@ public final class ConfigFilesDataBase {
 
         Properties props = new Properties();
 
-        try (InputStream in = Files.newInputStream(Paths.get("database.properties"))) {
+        InputStream in = Files.newInputStream(Paths.get("database.properties"));
 
-            props.load(in);
+        props.load(in);
 
-            url = props.getProperty("url");
-            username = props.getProperty("username");
-            password = props.getProperty("password");
+        url = props.getProperty("url");
+        username = props.getProperty("username");
+        password = props.getProperty("password");
 
-        } catch (IOException e) {
-            throw new IOException();
-        }
+        in.close();
 
     }
 
     public Connection getConnection() throws SQLException, IOException {
-
-        return DriverManager.getConnection(url, username,
-                password);
-
+        return DriverManager.getConnection(url, username, password);
     }
 
     public static ConfigFilesDataBase getInstance() {
