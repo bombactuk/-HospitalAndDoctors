@@ -11,13 +11,21 @@ import java.util.Properties;
 
 public final class ConfigFilesDataBase {
 
-    private static final ConfigFilesDataBase instance = new ConfigFilesDataBase();
+    private static final ConfigFilesDataBase instance;
+
+    static {
+        try {
+            instance = new ConfigFilesDataBase();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private final String url;
     private final String username;
     private final String password;
 
-    private ConfigFilesDataBase() {
+    private ConfigFilesDataBase() throws IOException {
 
         Properties props = new Properties();
 
@@ -30,7 +38,7 @@ public final class ConfigFilesDataBase {
             password = props.getProperty("password");
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IOException(e);
         }
 
     }
