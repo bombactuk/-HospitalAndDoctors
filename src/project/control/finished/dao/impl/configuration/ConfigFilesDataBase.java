@@ -37,8 +37,6 @@ public final class ConfigFilesDataBase {
             username = props.getProperty("username");
             password = props.getProperty("password");
 
-        } catch (IOException e) {
-            throw new IOException(e);
         }
 
     }
